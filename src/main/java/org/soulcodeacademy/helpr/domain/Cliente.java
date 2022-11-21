@@ -2,17 +2,17 @@ package org.soulcodeacademy.helpr.domain;
 
 import org.soulcodeacademy.helpr.domain.enums.Perfil;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 
 @Entity
-public class Cliente extends Usuario{
-
+public class Cliente extends Usuario {
+    @Column(length = 25) // VARCHAR(25)
     private String telefone;
 
-    public Cliente(){}
+    public Cliente() { // obrigatório para a ORM mapear as tabelas/dados
+
+    }
 
     public Cliente(Integer id, String nome, String email, String cpf, String senha, String telefone) {
         super(id, nome, email, cpf, senha, Perfil.CLIENTE);

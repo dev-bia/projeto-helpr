@@ -1,24 +1,25 @@
 package org.soulcodeacademy.helpr.domain;
 
-import javax.persistence.*;
+import javax.persistence.*; // JPA = JAVA PERSISTENCE API
 
-//Vai transformar a classe em uma entidade/tabela no banco
+// Transformar a classe em uma entidade/tabela no banco
 @Entity
-public class Cargo {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer idCargo;
-    @Column(nullable = false, length = 50)
+public class Cargo { // nome da tabela = cargo
+    @Id // PRIMARY KEY
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // AUTO_INCREMENT
+    private Integer idCargo; // será a chave primária da tabela
+
+    @Column(nullable = false, length = 50) // NOT NULL, e máximo de 50 caracteres
     private String nome;
-    @Column(nullable = false, length = 120)
+    @Column(nullable = false, length = 120) // NOT NULL, e 120 caracteres
     private String descricao;
-    @Column(nullable = false)
+    @Column(nullable = false) // @Column serve para customizar a coluna
     private Double salario;
 
-    // a URM irá usar este construtpr em conjunto dos getters/setters
+    // a ORM irá usar este construtor em conjunto dos getters/setters
     public Cargo() {}
 
-    public Cargo(Integer idCargo, String nome, String descricao, Double salario){
+    public Cargo(Integer idCargo, String nome, String descricao, Double salario) {
         this.idCargo = idCargo;
         this.nome = nome;
         this.descricao = descricao;

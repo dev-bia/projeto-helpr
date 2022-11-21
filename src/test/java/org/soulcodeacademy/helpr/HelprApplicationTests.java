@@ -11,3 +11,8 @@ class HelprApplicationTests {
 	}
 
 }
+
+//Prática:
+//Listar cargos pelo nome (containing)
+//Listar funcionários por cargo
+//Listar cargos com salário entre faixa

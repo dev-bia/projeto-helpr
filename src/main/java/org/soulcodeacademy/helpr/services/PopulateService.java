@@ -1,14 +1,20 @@
 package org.soulcodeacademy.helpr.services;
 
 import org.soulcodeacademy.helpr.domain.Cargo;
+import org.soulcodeacademy.helpr.domain.Chamado;
 import org.soulcodeacademy.helpr.domain.Cliente;
 import org.soulcodeacademy.helpr.domain.Funcionario;
+import org.soulcodeacademy.helpr.domain.enums.StatusChamado;
 import org.soulcodeacademy.helpr.repositories.CargoRepository;
+import org.soulcodeacademy.helpr.repositories.ChamadoRepository;
 import org.soulcodeacademy.helpr.repositories.ClienteRepository;
 import org.soulcodeacademy.helpr.repositories.FuncionarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
+// Torna o objeto de PopulateService disponível para toda a aplicação (global)
 @Service // indica para o Spring que esta classe será gerenciada por ele
 public class PopulateService {
     @Autowired // injetar o objeto direto na classe
@@ -20,29 +26,40 @@ public class PopulateService {
     @Autowired
     private ClienteRepository clienteRepository;
 
-    public void populate(){
+    @Autowired
+    private ChamadoRepository chamadoRepository;
+
+    public void populate() {
+        // Integer idCargo, String nome, String descricao, Double salario
         Cargo c1 = new Cargo(null, "Diretor Geral", "Gerencia a empresa", 30000.0);
-        Cargo c2 = new Cargo(null, "Diretor Setor", "Gerencia o setor da empresa", 18000.0);
-        Cargo c3 = new Cargo(null, "Tecnico Geral", "Resolve os chamados urgentes", 12000.0);
+        Cargo c2 = new Cargo(null, "Diretor de Setor", "Gerencia um setor da empresa", 18000.0);
+        Cargo c3 = new Cargo(null, "Técnico geral", "Resolve os chamados urgentes", 12000.0);
 
-        Funcionario f1 = new Funcionario(null, "Renato Pereira", "renato.pereira@gmail.com", "94292417024", "12345", null, c1);
-        Funcionario f2 = new Funcionario(null, "Victor Icoma", "victor.icoma@gmail.com", "46250532773", "12345", null, c1);
+        // Integer id, String nome, String email, String cpf, String senha, String foto, Cargo cargo
+        Funcionario f1 = new Funcionario(null, "Renato Pereira", "renato.pereira@gmail.com", "68258098144", "12345", null, c1);
+        Funcionario f2 = new Funcionario(null, "Victor Icoma", "victor.icoma@gmail.com", "51127383671", "12345", null, c2);
+        // Integer id, String nome, String email, String cpf, String senha, String telefone
 
-        Cliente cliente1 = new Cliente(null, "Fernando Silva", "fernando.silva@gmail.com", "39823783209", "12345", "99-13456789");
-        Cliente cliente2 = new Cliente(null, "Luiz Silva", "luiz.silva@gmail.com", "41181155819", "12345", "99-65748390");
+        Cliente cl1 = new Cliente(null, "José Almir", "jose.almir@gmail.com", "12659185115", "batata", "9999999999");
+        Cliente cl2 = new Cliente(null, "Pedro João", "pedro@gmail.com", "37734168302", "batata", "9999999997");
 
-        this.cargoRepository.save(c1); //Equivalente ao Insert Into
-        this.cargoRepository.save(c2);
-        this.cargoRepository.save(c3);
-        this.funcionarioRepository.save(f1);
-        this.funcionarioRepository.save(f2);
-        this.clienteRepository.save(cliente1);
-        this.clienteRepository.save(cliente2);
+        Chamado ch1 = new Chamado(null, "Primeiro chamado do sistema", "Revisar as entidades criadas");
+        ch1.setCliente(cl1);
+        Chamado ch2 = new Chamado(null, "Ativar VPN do sistema", "Conectar aos servidores remotos");
+        ch2.setCliente(cl2);
+        ch2.setFuncionario(f1);
+        ch2.setStatus(StatusChamado.ATRIBUIDO);
+
+        // vamos persistir as entidades = salvar no banco
+        this.cargoRepository.saveAll(List.of(c1, c2, c3));
+        this.funcionarioRepository.saveAll(List.of(f1, f2));
+        this.clienteRepository.saveAll(List.of(cl1, cl2));
+        this.chamadoRepository.saveAll(List.of(ch1, ch2));
     }
 }
 
-//o objetivo desta classe é inserir no banco, dados ficticios (de teste)
-//IOC = inversion of Control
+// O objetivo desta classe é inserir no banco, dados fictícios (de teste)
+// IOC = Inversion of Control = Inversão de Controle = É ele quem manda nas instâncias
 // Container = é o local onde o Spring guarda os objetos anotados
 // @Service = indica que a classe é um serviço
-// Injeção de dependencias = injeção de objeto na classe
+// Injeção de Dependências = quando o Spring injeta os objetos na classe

@@ -2,19 +2,23 @@ package org.soulcodeacademy.helpr.domain.dto;
 
 import javax.validation.constraints.*;
 
-// DTO - Objeto de transferencia de dados. Util para validação de informação transferidas pelo cliente.
+// DTO - Objeto de Transferência de Dados
+// É útil para validarmos as informações transferidas pelo cliente
 public class CargoDTO {
-    // Impede que o valor seja vazio ->""
-    // Message é o texto da validação.
+
+    // Impede que o valor de nome seja "", por exemplo.
+    // Message é o texto da validação
     @NotBlank(message = "Campo nome é obrigatório")
     private String nome;
+
     @NotBlank(message = "Campo descrição é obrigatório")
     private String descricao;
 
-    @NotNull(message = "Campo salario é obrigatório")// impede que seja null
+    // Impede que o valor seja null
+    @NotNull(message = "Campo salário é obrigatório")
     @Min(value = 500, message = "Campo salário inválido")
     @Max(value = 100000, message = "Campo salário inválido")
-    private double salario;
+    private Double salario;
 
     public String getNome() {
         return nome;
@@ -32,11 +36,11 @@ public class CargoDTO {
         this.descricao = descricao;
     }
 
-    public double getSalario() {
+    public Double getSalario() {
         return salario;
     }
 
-    public void setSalario(double salario) {
+    public void setSalario(Double salario) {
         this.salario = salario;
     }
 }

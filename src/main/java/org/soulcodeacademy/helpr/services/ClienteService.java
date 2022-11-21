@@ -9,47 +9,51 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-@Service
+@Service // torna o objeto da classe injetavel
 public class ClienteService {
-
-    @Autowired
+    @Autowired // injeção
     private ClienteRepository clienteRepository;
 
-    public List<Cliente> listar() {
+    public List<Cliente> listarTodos() {
         return this.clienteRepository.findAll();
     }
 
-    public Cliente getCliente(Integer idCliente){
+    public Cliente getCliente(Integer idCliente) {
+        // SELECT * FROM usuarios WHERE id = ?
         Optional<Cliente> cliente = this.clienteRepository.findById(idCliente);
 
-        if(cliente.isEmpty()){
-            throw new RuntimeException("O cliente não foi encontrado");
+        if (cliente.isEmpty()) {
+            // lançar exceção
+            throw new RuntimeException("Cliente não encontrado!");
         } else {
-            return  cliente.get();
+            return cliente.get();
         }
     }
 
-    public Cliente salvar(ClienteDTO dto){
+    public Cliente salvar(ClienteDTO dto) {
+        // Criação da entidade Cliente, a partir dos dados validados do DTO
         Cliente novoCliente = new Cliente(null, dto.getNome(), dto.getEmail(), dto.getCpf(), dto.getSenha(), dto.getTelefone());
-        this.clienteRepository.save(novoCliente);
-        return novoCliente;
+
+        return this.clienteRepository.save(novoCliente);
     }
 
-    public Cliente atualizar(Integer idCliente, ClienteDTO dto){
+    public Cliente atualizar(Integer idCliente, ClienteDTO dto) {
         Cliente clienteAtual = this.getCliente(idCliente);
-
         clienteAtual.setNome(dto.getNome());
         clienteAtual.setEmail(dto.getEmail());
         clienteAtual.setCpf(dto.getCpf());
-        clienteAtual.setTelefone(dto.getTelefone());
         clienteAtual.setSenha(dto.getSenha());
+        clienteAtual.setTelefone(dto.getTelefone());
 
-        return  this.clienteRepository.save(clienteAtual);
+        return this.clienteRepository.save(clienteAtual);
     }
 
-    public void deletar(Integer idCliente){
+    public void deletar(Integer idCliente) {
         Cliente cliente = this.getCliente(idCliente);
-
         this.clienteRepository.delete(cliente);
     }
 }
+
+// Quando usar entidade e dto?
+// Entidade = retorno dos dados
+// DTO = entrada de dados
